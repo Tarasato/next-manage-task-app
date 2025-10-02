@@ -40,6 +40,25 @@ export default function Page() {
 
   const handleDelete = async (id: string) => {
     if (confirm("คุณต้องการลบงานนี้ใช่หรือไม่?")) {
+
+      // หา image_url ก่อนลบ
+      const task = tasks.find(t => t.id === id);
+
+      if (task?.image_url) {
+        // ดึงเฉพาะ path หลัง task_bk/
+        const imagePath = task.image_url.split('/task_bk/')[1];
+
+      if (imagePath) {
+        const { error: storageError } = await supabase
+          .storage
+          .from('task_bk')
+          .remove([imagePath]);
+        if (storageError) {
+          console.error('Error deleting image:', storageError);
+        }
+      }
+    }
+
       const { error } = await supabase
         .from('task_tb')
         .delete()
@@ -50,6 +69,7 @@ export default function Page() {
         //remove task from state
         setTasks(tasks.filter((task) => task.id !== id));
       }
+
     }
   }
 
