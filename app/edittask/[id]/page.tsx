@@ -17,7 +17,7 @@ export default function Page() {
   const [image, setImage] = useState<File | null>(null)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
   const [isCompleted, setIsCompleted] = useState(false)
-  const [image_url, setImageUrl] = useState<string | null>(null)
+  const [oldImageUrl, setOldImageUrl] = useState<string | null>(null)
 
   //pull data from supabase
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function Page() {
         setDetail(data.detail)
         setIsCompleted(data.is_completed)
         setPreviewImage(data.image_url)
-        setImageUrl(data.image_url)
+        setOldImageUrl(data.image_url)
       }
     }
     fetchTaskById()
@@ -52,9 +52,9 @@ export default function Page() {
     let imageUrl = previewImage || "";
 
     if (image) {
-      if (image_url) {
+      if (oldImageUrl) {
         // ดึงเฉพาะ path หลัง task_bk/
-        const imagePath = image_url.split('/task_bk/')[1];
+        const imagePath = oldImageUrl.split('/task_bk/')[1];
 
         if (imagePath) {
           const { error: storageError } = await supabase
