@@ -47,6 +47,7 @@ export default function Page() {
       if (task?.image_url) {
         // ดึงเฉพาะ path หลัง task_bk/
         const imagePath = task.image_url.split('/task_bk/')[1];
+        // const imagePath = oldImageUrl.split('/').pop();
 
       if (imagePath) {
         const { error: storageError } = await supabase
